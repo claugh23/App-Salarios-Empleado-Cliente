@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { json } from "react-router-dom";
 
 export default function VerEmpleados() {
+  const [empleados, SetEmpleados] = useState([]);
+
+  const GetDataFromServer = () => {
+    const request = fetch(
+      "http://localhost:8080/api/v1/empleados/ObtenerEmpleado"
+    )
+      .then((response) => response.json())
+      .then((data) => SetEmpleados(data))
+      .catch((error) => alert(error));
+  };
+
+  useEffect(() => {
+    GetDataFromServer();
+  }, []);
+
   return (
     <div className="container-fluid">
       <div className="table-responsive-md">
@@ -12,7 +28,6 @@ export default function VerEmpleados() {
             align-middle"
         >
           <thead className="table-light">
-            
             <tr>
               <th>Nombre</th>
               <th>Apellidos</th>
@@ -26,18 +41,21 @@ export default function VerEmpleados() {
             </tr>
           </thead>
           <tbody className="table-group-divider">
-           
-            <tr className="table-primary">
-              <td scope="row">Item</td>
-              <td>Item</td>
-              <td>Item</td>
-              <td>Item</td>
-              <td>Item</td>
-              <td>Item</td>
-              <td>Item</td>
-              <td>Item</td>
-              <td>Item</td>
+            {empleados.map((data) => {
+            return(
+              <tr className="table-primary" key={data.id}>
+              <td>{data.nombre}</td>
+              <td>{data.apellidos}</td>
+              <td>{data.correo}</td>
+              <td>{data.posicionActual}</td>
+              <td>{data.departamento}</td>
+              <td>{data.horasLaborales}</td>
+              <td>{data.salarioPorHora}</td>
+              <td>{data.salarioMensual}</td>
+              <td>{data.salarioAnual}</td>
             </tr>
+            )
+            })}
           </tbody>
           <tfoot></tfoot>
         </table>
