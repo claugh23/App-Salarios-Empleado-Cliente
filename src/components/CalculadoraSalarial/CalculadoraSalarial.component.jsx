@@ -2,27 +2,36 @@ import React, { useEffect, useState } from "react";
 import { empleadoData } from "./utils/CalculadoraSalaria.constants";
 export default function CalculadoraSalarial() {
   //state para renderizar la informacion en la tabla
-  const [datosEmpleado, SetDatosEmpleado] = useState({});
+  const [datosEmpleado, SetDatosEmpleado] = useState([]);
 
   //states para generar el formulario y los calculos
-  const [nombreEmpleado, SetNombreEmpleado] = useState("");
-  const [horasLaborales, SetHorasLaborales] = useState(0);
-  const [cargasLaborales, SetCargasLaborales] = useState(0);
-  const [salarioPorHora, SetSalarioPorHora] = useState(0);
-  const MostrarDatosEmpleado = (dataEmpleados) => {
-    SetDatosEmpleado(dataEmpleados);
+  const [calculoSalarialState,SetCalculoSalarial] = useState({})
+
+  async function GetDataFromServer(){
+    const request = await fetch(
+      "http://localhost:8080/api/v1/empleados/ObtenerEmpleado"
+    )
+      .then((response) => response.json())
+      .then((data) => SetDatosEmpleado(data))
+      .catch((error) => alert(error));
   };
+
+  useEffect(() => {
+    GetDataFromServer();
+  }, []);
+
   {
     /**Funcion que realiza el calculo del salario con rebajas y lo muestra en la tabla adjunta */
   }
   const CalculoSalarial = () => {
     let DatosCalculos = {};
-    const calculoSalarioBruto = horasLaborales * salarioPorHora;
-    const calculoCargasLaborales = cargasLaborales * calculoSalarioBruto;
+    const calculoSalarioBruto = datosEmpleado.horasLaborales * datosEmpleado.salarioPorHora;
+    const calculoCargasLaborales = datosEmpleado.cargasLaborales * calculoSalarioBruto;
     const calculoSalarioNeto = calculoSalarioBruto - calculoCargasLaborales;
+    
     DatosCalculos = {
       id: 0,
-      empleado: nombreEmpleado,
+      empleado: datosEmpleado.nombreEmpleado,
       salarioBruto: calculoSalarioBruto,
       cargaLaboral: calculoCargasLaborales,
       salarioNeto: calculoSalarioNeto,
@@ -33,11 +42,9 @@ export default function CalculadoraSalarial() {
     SetCargasLaborales(document.getElementById("InputCharges").value);
     SetSalarioPorHora(document.getElementById("InputHourPayment").value);
 
-    MostrarDatosEmpleado(DatosCalculos);
+    SetCalculoSalarial(DatosCalculos);
   };
-  useEffect(() => {
-    MostrarDatosEmpleado(datosEmpleado);
-  }, []);
+ 
   return (
     <div className="container-fluid">
       <form action="">
@@ -45,10 +52,10 @@ export default function CalculadoraSalarial() {
           <div className="form-row ">
             <label htmlFor="InputName">Seleccione el empleado</label>
             <select className="form-control" id="InputName" required={true}>
-              {empleadoData.map((empleado) => {
+              {datosEmpleado.map((empleado) => {
                 return (
-                  <option key={empleado.value} value={empleado.empleadoKey}>
-                    {empleado.empleadoKey}
+                  <option key={empleado.id} value={empleado.nombre}>
+                    {empleado.nombre} 
                   </option>
                 );
               })}
