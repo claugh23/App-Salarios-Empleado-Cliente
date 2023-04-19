@@ -16,7 +16,7 @@ export default function AgregarEmpleado() {
     });
 
     const request = await fetch(
-      "https://23e4-170-246-157-53.ngrok-free.app/api/v1/empleados/",
+      "https://app-salarios-web-server-production.up.railway.app/api/v1/empleados/",
       {
         method: "POST",
         headers: requestHeaders,

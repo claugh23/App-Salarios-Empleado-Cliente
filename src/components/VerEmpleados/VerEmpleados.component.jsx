@@ -6,7 +6,7 @@ export default function VerEmpleados() {
 
   const GetDataFromServer = () => {
     const request = fetch(
-      "https://23e4-170-246-157-53.ngrok-free.app/api/v1/empleados/ObtenerEmpleado"
+      "https://app-salarios-web-server-production.up.railway.app/api/v1/empleados/ObtenerEmpleado"
     )
       .then((response) => response.json())
       .then((data) => SetEmpleados(data))
