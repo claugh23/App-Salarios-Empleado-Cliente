@@ -7,7 +7,7 @@ export default function AgregarEmpleado() {
   const [responseAPI, SetResponseAPI] = useState({});
   const requestHeaders = new Headers({
     'Content-Type': 'application/json',
-    'access-control-allow-origin' : '*',
+    
   });
 
   async function AgregarEmpleado(values) {
