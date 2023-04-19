@@ -50,9 +50,9 @@ export default function VerEmpleados() {
               <td>{data.posicionActual}</td>
               <td>{data.departamento}</td>
               <td>{data.horasLaborales}</td>
-              <td>{data.salarioPorHora}</td>
-              <td>{data.salarioMensual}</td>
-              <td>{data.salarioAnual}</td>
+              <td>$ {data.salarioPorHora} </td>
+              <td>$ {data.salarioMensual} </td>
+              <td>$ {data.salarioAnual} </td>
             </tr>
             )
             })}
