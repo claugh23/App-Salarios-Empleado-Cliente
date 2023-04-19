@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { empleadoData } from "./utils/CalculadoraSalaria.constants";
 export default function CalculadoraSalarial() {
-  //state para renderizar la informacion en la tabla
+  //state hooks para renderizar la informacion en la tabla
   const [datosEmpleado, SetDatosEmpleado] = useState([]);
-
-  //states para generar el formulario y los calculos
-  const [calculoSalarialState,SetCalculoSalarial] = useState({})
+  const [calculoLaboral,SetCalculoLaboral] = useState({});
+  
 
   async function GetDataFromServer(){
     const request = await fetch(
@@ -23,26 +22,29 @@ export default function CalculadoraSalarial() {
   {
     /**Funcion que realiza el calculo del salario con rebajas y lo muestra en la tabla adjunta */
   }
-  const CalculoSalarial = () => {
-    let DatosCalculos = {};
-    const calculoSalarioBruto = datosEmpleado.horasLaborales * datosEmpleado.salarioPorHora;
-    const calculoCargasLaborales = datosEmpleado.cargasLaborales * calculoSalarioBruto;
-    const calculoSalarioNeto = calculoSalarioBruto - calculoCargasLaborales;
-    
-    DatosCalculos = {
-      id: 0,
-      empleado: datosEmpleado.nombreEmpleado,
-      salarioBruto: calculoSalarioBruto,
-      cargaLaboral: calculoCargasLaborales,
-      salarioNeto: calculoSalarioNeto,
+  let calculoSalarioBruto = 0
+  let calculoCargasLaborales = 0
+  let calculoSalarioNeto = 0
+  const CalculoSalarial = async () => {
+   
+    let formData = {
+      horasLaboralesInfo:document.getElementById('InputHoursWorked')?.value,
+      cargasLaboralesInfo:document.getElementById('InputCharges')?.value,
+      salarioPorHoraInfo:document.getElementById('InputHourPayment')?.value
+    }
+    let calculoSalarioBruto = formData.horasLaboralesInfo * formData.salarioPorHoraInfo;
+    let calculoCargasLaborales = formData.cargasLaboralesInfo * calculoSalarioBruto;
+    let calculoSalarioNeto = calculoSalarioBruto - calculoCargasLaborales;
+
+    let DatosCalculos = {
+      nombre:document.getElementById('InputName')?.value,
+      dato1:calculoSalarioBruto,
+      dato2:formData.cargasLaboralesInfo,
+      dato3:calculoSalarioNeto
     };
-
-    SetNombreEmpleado(document.getElementById("InputName").value);
-    SetHorasLaborales(document.getElementById("InputHoursWorked").value);
-    SetCargasLaborales(document.getElementById("InputCharges").value);
-    SetSalarioPorHora(document.getElementById("InputHourPayment").value);
-
-    SetCalculoSalarial(DatosCalculos);
+    SetCalculoLaboral(DatosCalculos);
+    
+   
   };
  
   return (
@@ -54,7 +56,7 @@ export default function CalculadoraSalarial() {
             <select className="form-control" id="InputName" required={true}>
               {datosEmpleado.map((empleado) => {
                 return (
-                  <option key={empleado.id} value={empleado.nombre}>
+                  <option key={empleado._id} value={empleado.nombre}>
                     {empleado.nombre} 
                   </option>
                 );
@@ -117,10 +119,10 @@ export default function CalculadoraSalarial() {
           </thead>
           <tbody>
             <tr className="">
-              <td>{datosEmpleado.empleado}</td>
-              <td>{datosEmpleado.salarioBruto}</td>
-              <td>{datosEmpleado.cargaLaboral}</td>
-              <td>{datosEmpleado.salarioNeto}</td>
+              <td>{calculoLaboral.nombre}</td>
+              <td>{calculoLaboral.dato1} $</td>
+              <td>{calculoLaboral.dato2} </td>
+              <td>{calculoLaboral.dato3} $</td>
             </tr>
           </tbody>
         </table>
