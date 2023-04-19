@@ -15,7 +15,7 @@ export default function AgregarEmpleado() {
     });
 
     const request = await fetch(
-      "https://30b6-170-246-157-53.ngrok-free.app/api/v1/empleados/",
+      "https://d8a1-170-246-157-53.ngrok-free.app/api/v1/empleados/",
       {
         method: "POST",
         headers: requestHeaders,
