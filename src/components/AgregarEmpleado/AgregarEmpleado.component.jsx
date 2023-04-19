@@ -16,7 +16,7 @@ export default function AgregarEmpleado() {
     });
 
     const request = await fetch(
-      "https://app-salarios-web-server-production.up.railway.app/api/v1/empleados/",
+      "https://app-salarios-web-server-production.up.railway.app/api/v1/empleados/NuevoEmpleado",
       {
         method: "POST",
         headers: requestHeaders,
