@@ -7,6 +7,7 @@ export default function AgregarEmpleado() {
   const [responseAPI, SetResponseAPI] = useState({});
   const requestHeaders = new Headers({
     'Content-Type': 'application/json',
+    'access-control-allow-origin' : '*',
   });
 
   async function AgregarEmpleado(values) {
@@ -15,7 +16,7 @@ export default function AgregarEmpleado() {
     });
 
     const request = await fetch(
-      "https://d8a1-170-246-157-53.ngrok-free.app/api/v1/empleados/",
+      "https://23e4-170-246-157-53.ngrok-free.app/api/v1/empleados/",
       {
         method: "POST",
         headers: requestHeaders,
