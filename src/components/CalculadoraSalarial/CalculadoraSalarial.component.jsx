@@ -8,7 +8,7 @@ export default function CalculadoraSalarial() {
 
   async function GetDataFromServer(){
     const request = await fetch(
-      "http://localhost:8080/api/v1/empleados/ObtenerEmpleado"
+      "https://app-salarios-web-server-production.up.railway.app/api/v1/empleados/ObtenerEmpleado"
     )
       .then((response) => response.json())
       .then((data) => SetDatosEmpleado(data))
