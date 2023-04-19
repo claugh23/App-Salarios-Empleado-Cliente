@@ -6,7 +6,7 @@ export default function VerEmpleados() {
 
   const GetDataFromServer = () => {
     const request = fetch(
-      "http://localhost:8080/api/v1/empleados/ObtenerEmpleado"
+      "https://30b6-170-246-157-53.ngrok-free.app/api/v1/empleados/ObtenerEmpleado"
     )
       .then((response) => response.json())
       .then((data) => SetEmpleados(data))
